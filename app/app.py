@@ -1,11 +1,10 @@
 from flask import Flask
-from domain.getaways.db_gateway import *
-from domain.getaways.table_creation_queries import *
+from domain.getaways.db_gateway.table_initializer import *
 
 app = Flask(__name__)
 
 if __name__ == '__main__':
-    make_db_query(empoyee_creation_query)
+    init_db_tables()
     app.run()
 
 
