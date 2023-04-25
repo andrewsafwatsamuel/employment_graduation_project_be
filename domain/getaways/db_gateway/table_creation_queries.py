@@ -1,7 +1,8 @@
 from entities.company import *
 from entities.employee import *
+from entities.job_listing import *
 
-empoyee_creation_query = f""" CREATE TABLE IF NOT EXISTS employee(
+empoyee_creation_query = f""" CREATE TABLE IF NOT EXISTS employee (
  {EMPLOYEE_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
  {EMPLOYEE_photo} VARCHAR(100) , 
  {EMPLOYEE_BIO} VARCHAR(300) , 
@@ -14,7 +15,7 @@ empoyee_creation_query = f""" CREATE TABLE IF NOT EXISTS employee(
 );
 """
 
-company_creationQuery = f""" CREATE TABLE IF NOT EXISTS company(
+company_creationQuery = f""" CREATE TABLE IF NOT EXISTS company (
  {COMPANY_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
  {COMPANY_LOGO} VARCHAR(100) , 
  {COMPANY_NAME} VARCHAR(100) NOT NULL , 
@@ -27,19 +28,38 @@ company_creationQuery = f""" CREATE TABLE IF NOT EXISTS company(
 );
 """
 
-company_phone_creation_query = f""" CREATE TABLE IF NOT EXISTS company_phone(
+company_phone_creation_query = f""" CREATE TABLE IF NOT EXISTS company_phone (
  {COMPANY_ID_FK} INTEGER , 
  {COMPANY_PHONE} VARCHAR(20) NOT NULL , 
  FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) ON DELETE CASCADE 
 );
 """
 
-company_address_creation_query = f""" CREATE TABLE IF NOT EXISTS company_address(
+company_address_creation_query = f""" CREATE TABLE IF NOT EXISTS company_address (
  {COMPANY_ID_FK} INTEGER , 
  {COMPANY_COUNTRY} VARCHAR(100) NOT NULL , 
  {COMPANY_CITY} VARCHAR(100) NOT NULL , 
  {COMPANY_STREET} VARCHAR(100) NOT NULL , 
  FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) ON DELETE CASCADE 
 );
+"""
 
+job_listing_creation_query = f""" CREATE TABLE IF NOT EXISTS job_listing (
+  {JOB_LISTING_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
+  {COMPANY_ID_FK} INTEGER NOT NULL , 
+  {JOB_LISTING_EXP_LEVEL} INTEGER NOT NULL , 
+  {JOB_LISTING_TITLE} VARCHAR(50) NOT NULL , 
+  {JOB_LISTING_STATUS} INTEGER NOT NULL DEFAULT 0 , 
+  {JOB_LISTING_DISCRIPTION} VARCHAR(300) , 
+  FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) ON DELETE CASCADE
+);
+"""
+
+job_application_creation_query = f""" CREATE TABLE IF NOT EXISTS job_application (
+  {EMPLOYEE_ID_FK} INTEGER NOT NULL , 
+  {JOB_LISTING_ID_FK} INTEGER NOT NULL , 
+  {JOB_APPLICATION_STATUS} INTEGER NOT NULL DEFAULT 0 , 
+  FOREIGN KEY ({EMPLOYEE_ID_FK}) REFERENCES company({EMPLOYEE_ID}) ON DELETE CASCADE , 
+  FOREIGN KEY ({JOB_LISTING_ID_FK}) REFERENCES company({JOB_LISTING_ID}) ON DELETE CASCADE  
+);
 """

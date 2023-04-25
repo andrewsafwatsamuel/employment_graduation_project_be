@@ -8,6 +8,7 @@ EMPLOYEE_PHONE = "phone"
 EMPLOYEE_EMAIL = "email"
 EMPLOYEE_TITLE = "title"
 EMPLOYEE_PASSWORD = "password"
+EMPLOYEE_ID_FK = "emp_id"
 
 
 # database model
