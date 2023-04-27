@@ -27,14 +27,17 @@ def insert_employee_session(session_db):
 
 def retrieve_employee_by_email(email):
     emp_db = query_single_value(retrieve_employee_by_email_query, [email])
-    return Employee_Db(
-        emp_db[0],
-        emp_db[1],
-        emp_db[2],
-        emp_db[3],
-        emp_db[4],
-        emp_db[5],
-        emp_db[6],
-        emp_db[7],
-        emp_db[8]
-    )
+    if emp_db is None:
+        return None
+    else:
+        return Employee_Db(
+            emp_db[0],
+            emp_db[1],
+            emp_db[2],
+            emp_db[3],
+            emp_db[4],
+            emp_db[5],
+            emp_db[6],
+            emp_db[7],
+            emp_db[8]
+        )

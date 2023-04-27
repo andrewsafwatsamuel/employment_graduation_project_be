@@ -1,7 +1,7 @@
 from flask import jsonify
 from entities.models.employee import *
 from domain.use_cases.employee_registration import register_new_employee
-from domain.use_cases.create_session_use_case import create_new_session
+from domain.use_cases.create_session_use_case import *
 from domain.utils.dict_utils import get_or_none
 
 
@@ -25,6 +25,6 @@ def register_employee(request_body):
     if emp_id is None:
         return jsonify({"error": "Couldn't create new user please try again"}), 500
     try:
-        return jsonify(create_new_session(emp_id, employee[EMPLOYEE_EMAIL]))
+        return jsonify(create_new_session(emp_id, employee[EMPLOYEE_EMAIL], SESSION_TYPE_EMP))
     except Exception as e:
         return jsonify({"error": str(e.args)}), 500

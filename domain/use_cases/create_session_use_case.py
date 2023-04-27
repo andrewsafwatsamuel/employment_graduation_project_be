@@ -5,8 +5,11 @@ from domain.utils.validation_utils import is_valid_string_input
 from entities.constants.regex import EMAIL_ADDRESS_REGEX
 import time
 
+SESSION_TYPE_EMP = "employee_session"
+SESSION_TYPE_COMPANY = "company_session"
 
-def create_new_session(owner_id, owner_email, operation=insert_employee_session):
+
+def create_new_session(owner_id, owner_email, session_type, operation=insert_employee_session):
     if not is_valid_string_input(str(owner_id)) or not is_valid_string_input(owner_email, EMAIL_ADDRESS_REGEX):
         raise Exception("Error while creating the session")
     token_combination = f"{owner_id}-{owner_email}"
