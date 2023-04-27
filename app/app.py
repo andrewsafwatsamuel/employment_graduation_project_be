@@ -10,6 +10,11 @@ def register_employee_endpoint():
     return register_employee(request.form)
 
 
+@app.route("/employees/login", methods=['POST'])
+def login_employee_endpoint():
+    return login_employee(request.form)
+
+
 @app.route("/")
 def init():
     return "Hello World!"

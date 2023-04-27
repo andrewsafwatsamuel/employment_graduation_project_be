@@ -18,7 +18,7 @@ def create_new_session(owner_id, owner_email, session_type, operation=insert_emp
     current_time = int(round(time.time()) * 1000)
     session_db = Session_Db(owner_id, auth_token, refresh_token, owner_email, current_time)
     # TODO retrieve and delete sessions with the same email
-    session_row_id = insert_employee_session(session_db)
+    session_row_id = operation(session_db)
     if session_row_id is not None:
         return session_db
     else:
