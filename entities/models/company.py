@@ -1,4 +1,5 @@
 # company variable names
+COMPANY_TABLE_NAME = "company"
 COMPANY_ID = "id"
 COMPANY_LOGO = "logo"
 COMPANY_NAME = "name"

@@ -3,7 +3,7 @@ from domain.getaways.db_gateway.db_manager import *
 
 
 def init_db_tables():
-    make_db_query(empoyee_creation_query)
+    make_db_query(employee_creation_query)
     make_db_query(company_creationQuery)
     make_db_query(company_phone_creation_query)
     make_db_query(company_address_creation_query)
