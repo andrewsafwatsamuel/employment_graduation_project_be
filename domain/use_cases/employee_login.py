@@ -13,6 +13,6 @@ def employee_login_use_case(email, password, operation=retrieve_employee_by_emai
     if not is_valid_string_input(email, EMAIL_ADDRESS_REGEX) or not is_valid_string_input(password, PASSWORD_REGEX):
         raise invalid_login_credentials()
     employee = operation(email)
-    if employee is None or check_password_hash(employee[EMPLOYEE_PASSWORD], password):
+    if employee is None or not check_password_hash(employee[EMPLOYEE_PASSWORD], password):
         raise invalid_login_credentials()
     return employee
