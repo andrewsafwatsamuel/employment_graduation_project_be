@@ -28,3 +28,18 @@ def insert_new_record(query, values):
         cursor.close()
         db.close()
     return row_id
+
+
+def query_single_value(query, where_args):
+    db = open_db_connection()
+    result = None
+    if db is None:
+        return result
+    cursor = db.cursor(db)
+    try:
+        cursor.execute(query.format(*where_args))
+        result = cursor.fetchone()
+    finally:
+        cursor.close()
+        db.close()
+    return result
