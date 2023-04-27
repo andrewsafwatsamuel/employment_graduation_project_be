@@ -28,7 +28,7 @@ def register_employee(request_body):
     if emp_id is None:
         return jsonify({"error": "Couldn't create new user please try again"}), 500
     try:
-        return jsonify(create_session_use_case(emp_id, employee[EMPLOYEE_EMAIL], SESSION_TYPE_EMP))
+        return jsonify(create_session_use_case(emp_id, employee[EMPLOYEE_EMAIL], EMPLOYEE_SESSION_TABLE_NAME))
     except Exception as e:
         return jsonify({"error": str(e.args)}), 500
 
@@ -52,7 +52,7 @@ def register_company(request_body):
     if company_id is None:
         return jsonify({"error": "Couldn't create new company please try again"}), 500
     try:
-        return jsonify(create_session_use_case(company_id, company[EMPLOYEE_EMAIL], SESSION_TYPE_COMPANY))
+        return jsonify(create_session_use_case(company_id, company[EMPLOYEE_EMAIL], COMPANY_SESSION_TABLE_NAME))
     except Exception as e:
         return jsonify({"error": str(e.args)}), 500
 
@@ -67,7 +67,8 @@ def login_employee(request_body):
     if employee is None:
         return jsonify({"error": "UnKnown error occurred please try again"}), 500
     try:
-        return jsonify(create_session_use_case(employee[EMPLOYEE_ID], employee[EMPLOYEE_EMAIL], SESSION_TYPE_EMP))
+        return jsonify(
+            create_session_use_case(employee[EMPLOYEE_ID], employee[EMPLOYEE_EMAIL], EMPLOYEE_SESSION_TABLE_NAME))
     except Exception as e:
         return jsonify({"error": str(e.args)}), 500
 
@@ -82,6 +83,6 @@ def login_company(request_body):
     if company is None:
         return jsonify({"error": "UnKnown error occurred please try again"}), 500
     try:
-        return jsonify(create_session_use_case(company[COMPANY_ID], company[COMPANY_EMAIL], SESSION_TYPE_COMPANY))
+        return jsonify(create_session_use_case(company[COMPANY_ID], company[COMPANY_EMAIL], COMPANY_SESSION_TABLE_NAME))
     except Exception as e:
         return jsonify({"error": str(e.args)}), 500
