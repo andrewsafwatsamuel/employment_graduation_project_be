@@ -1,4 +1,5 @@
 from flask import Flask, request
+
 from domain.getaways.db_gateway.operations.table_initializer import *
 from endpoint_logic.authentication import *
 
@@ -18,6 +19,11 @@ def register_company_endpoint():
 @app.route("/employees/login", methods=['POST'])
 def login_employee_endpoint():
     return login_employee(request.form)
+
+
+@app.route("/companies/login", methods=['POST'])
+def login_company_endpoint():
+    return login_company(request.form)
 
 
 @app.route("/")

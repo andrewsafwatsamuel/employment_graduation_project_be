@@ -18,6 +18,6 @@ insert_company_session_query = create_insert_query(COMPANY_SESSION_TABLE_NAME, [
 ])
 
 retrieve_company_by_email_query = create_retrieve_query(
-    table_name=COMPANY_NAME,
+    table_name=COMPANY_TABLE_NAME,
     where_clause=[f"{COMPANY_EMAIL} ="]
 )

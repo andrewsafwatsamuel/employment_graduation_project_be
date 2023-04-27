@@ -4,6 +4,7 @@ from entities.models.company import *
 from domain.use_cases.employee_registration_use_case import employee_registration_use_case
 from domain.use_cases.company_registration_use_case import company_registration_use_case
 from domain.use_cases.employee_login_use_case import employee_login_use_case
+from domain.use_cases.company_login_use_case import company_login_use_case
 from domain.use_cases.create_session_use_case import *
 from domain.utils.dict_utils import get_or_none
 
@@ -67,5 +68,20 @@ def login_employee(request_body):
         return jsonify({"error": "UnKnown error occurred please try again"}), 500
     try:
         return jsonify(create_session_use_case(employee[EMPLOYEE_ID], employee[EMPLOYEE_EMAIL], SESSION_TYPE_EMP))
+    except Exception as e:
+        return jsonify({"error": str(e.args)}), 500
+
+
+def login_company(request_body):
+    email = get_or_none(request_body, COMPANY_EMAIL)
+    password = get_or_none(request_body, COMPANY_PASSWORD)
+    try:
+        company = company_login_use_case(email, password)
+    except Exception as e:
+        return jsonify({"error": str(e.args)}), 422
+    if company is None:
+        return jsonify({"error": "UnKnown error occurred please try again"}), 500
+    try:
+        return jsonify(create_session_use_case(company[COMPANY_ID], company[COMPANY_EMAIL], SESSION_TYPE_COMPANY))
     except Exception as e:
         return jsonify({"error": str(e.args)}), 500
