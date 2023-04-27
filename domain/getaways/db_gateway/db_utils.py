@@ -15,17 +15,12 @@ def create_insert_query(table_name, params):
 
 def create_retrieve_query(table_name, columns=None, where_clause=None):
     where = ""
-    selection = ""
     if where_clause is not None and len(where_clause) > 0:
-        where += "WHERE "
-        for index in range(len(where_clause)):
-            item = where_clause[index]
-            if item.upper().strip() in ("AND", "OR"):
-                where += f"{item.upper().strip()} "
-            else:
-                where += f"{item} {parametrized_query(index)} "
+        where = f"WHERE {where_clause}"
+
     if columns is None or len(where_clause) == 0:
         selection = "*"
     else:
         selection = str(columns).replace("[", "").replace("]", "")
-    return f""" SELECT {selection} FROM {table_name} {where}"""
+    query = f""" SELECT {selection} FROM {table_name} {where}"""
+    return query
