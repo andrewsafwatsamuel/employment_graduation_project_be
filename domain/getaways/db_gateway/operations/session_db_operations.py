@@ -12,3 +12,22 @@ def insert_session(session_db, table_name):
         session_db[CREATED_AT]
     ))
     return row
+
+
+def retrieve_session_by_token(auth_token, table_name):
+    session = query_single_value(retrieve_session_by_token_query(table_name), [auth_token])
+    return Session_Db(
+        session[0],
+        session[1],
+        session[2],
+        session[3],
+        session[4]
+    )
+
+
+def delete_sessions_by_email(email, table_name):
+    return delete_db_entries(delete_sessions_by_email_query(table_name), [email])
+
+
+def delete_session_by_token(auth_token, table_name):
+    return delete_db_entries(delete_session_by_token_query(table_name), [auth_token])

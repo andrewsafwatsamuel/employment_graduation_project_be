@@ -43,3 +43,19 @@ def query_single_value(query, where_args):
         cursor.close()
         db.close()
     return result
+
+
+def delete_db_entries(query, where_args):
+    db = open_db_connection()
+    row_count = None
+    if db is None:
+        return row_count
+    cursor = db.cursor(db)
+    try:
+        cursor.execute(query.format(*where_args))
+        db.commit()
+        row_count = cursor.rowcount
+    finally:
+        cursor.close()
+        db.close()
+    return row_count

@@ -24,3 +24,11 @@ def create_retrieve_query(table_name, columns=None, where_clause=None):
         selection = str(columns).replace("[", "").replace("]", "")
     query = f""" SELECT {selection} FROM {table_name} {where}"""
     return query
+
+
+def create_delete_query(table_name, where_clause=None):
+    where = ""
+    if where_clause is not None and len(where_clause) > 0:
+        where = f"WHERE {where_clause}"
+    query = f""" DELETE FROM {table_name} {where}"""
+    return query

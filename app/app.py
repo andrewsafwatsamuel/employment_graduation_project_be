@@ -35,10 +35,6 @@ if __name__ == "__main__":
     init_db_tables()
     app.run(debug=True)
 
-# query to retrieve session by token
-# query to delete sessions attached to email
-# delete entry by token
-
 # use case to check have valid toke that validate token is not blank or null
 # token is not expired
 # if okay proceed else throw exception with 401 response
