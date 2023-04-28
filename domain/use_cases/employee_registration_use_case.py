@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 from domain.utils.validation_utils import is_valid_string_input
 
 
-def register_new_employee(emp_db, data_source=insert_employee):
+def employee_registration_use_case(emp_db, data_source=insert_employee):
     if not is_valid_string_input(emp_db[EMPLOYEE_PASSWORD], PASSWORD_REGEX):
         raise Exception("Invalid password")
     if not is_valid_string_input(emp_db[EMPLOYEE_PHONE], EGYPTIAL_PHONE_NUMBER_REGEX):

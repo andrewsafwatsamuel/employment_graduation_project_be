@@ -1,10 +1,9 @@
 from entities.models.company import *
 from entities.models.employee import *
 from entities.models.job_listing import *
-from entities.models.job_listing import *
 from entities.models.session import *
 
-empoyee_creation_query = f""" CREATE TABLE IF NOT EXISTS {EMPLOYEE_TABLE_NAME} (
+employee_creation_query = f""" CREATE TABLE IF NOT EXISTS {EMPLOYEE_TABLE_NAME} (
  {EMPLOYEE_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
  {EMPLOYEE_photo} VARCHAR(100) , 
  {EMPLOYEE_BIO} VARCHAR(300) , 
@@ -17,15 +16,15 @@ empoyee_creation_query = f""" CREATE TABLE IF NOT EXISTS {EMPLOYEE_TABLE_NAME} (
 );
 """
 
-company_creationQuery = f""" CREATE TABLE IF NOT EXISTS company (
+company_creationQuery = f""" CREATE TABLE IF NOT EXISTS {COMPANY_TABLE_NAME} (
  {COMPANY_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
  {COMPANY_LOGO} VARCHAR(100) , 
  {COMPANY_NAME} VARCHAR(100) NOT NULL , 
  {COMPANY_INDUSTRY} VARCHAR(100) NOT NULL , 
- {COMPANY_WEBSITE} VARCHAR(100) , 
+ {COMPANY_WEBSITE} VARCHAR(100) UNIQUE , 
  {COMPANY_ABOUT} VARCHAR(300) , 
- {COMPANY_EMAIL} VARCHAR(100) NOT NULL , 
- {COMPANY_FACEBOOK_PAGE} VARCHAR(100) NOT NULL, 
+ {COMPANY_EMAIL} VARCHAR(100) UNIQUE NOT NULL , 
+ {COMPANY_FACEBOOK_PAGE} VARCHAR(100) UNIQUE NOT NULL, 
  {COMPANY_PASSWORD} VARCHAR(200) NOT NULL 
 );
 """

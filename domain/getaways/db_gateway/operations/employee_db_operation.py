@@ -15,16 +15,6 @@ def insert_employee(employee_db):
     ))
 
 
-def insert_employee_session(session_db):
-    return insert_new_record(insert_employee_session_query, (
-        session_db[OWNER_ID],
-        session_db[Auth_TOKEN],
-        session_db[REFRESH_TOKEN],
-        session_db[OWNER_EMAIL],
-        session_db[CREATED_AT]
-    ))
-
-
 def retrieve_employee_by_email(email):
     emp_db = query_single_value(retrieve_employee_by_email_query, [email])
     if emp_db is None:
