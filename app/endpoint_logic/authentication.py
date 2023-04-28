@@ -12,7 +12,7 @@ from domain.utils.dict_utils import get_or_none
 def register_employee(request_body):
     employee = Employee_Db(
         -1,
-        get_or_none(request_body, EMPLOYEE_photo),
+        get_or_none(request_body, EMPLOYEE_PHOTO),
         get_or_none(request_body, EMPLOYEE_BIO),
         get_or_none(request_body, EMPLOYEE_RESUME),
         get_or_none(request_body, EMPLOYEE_NAME),

@@ -4,7 +4,7 @@ from domain.getaways.db_gateway.db_manager import *
 
 def insert_employee(employee_db):
     return insert_new_record(insert_employee_query, (
-        employee_db[EMPLOYEE_photo],
+        employee_db[EMPLOYEE_PHOTO],
         employee_db[EMPLOYEE_BIO],
         employee_db[EMPLOYEE_RESUME],
         employee_db[EMPLOYEE_NAME],

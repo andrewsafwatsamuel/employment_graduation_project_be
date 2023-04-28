@@ -3,7 +3,7 @@ from entities.models.company import COMPANY_ID_FK
 # employee variable names
 EMPLOYEE_TABLE_NAME = "employee"
 EMPLOYEE_ID = "id"
-EMPLOYEE_photo = "photo"
+EMPLOYEE_PHOTO = "photo"
 EMPLOYEE_BIO = "bio"
 EMPLOYEE_RESUME = "resume"
 EMPLOYEE_NAME = "name"
@@ -34,7 +34,7 @@ def Employee_Db(
 ):
     return {
         EMPLOYEE_ID: emp_id,
-        EMPLOYEE_photo: photo,
+        EMPLOYEE_PHOTO: photo,
         EMPLOYEE_BIO: bio,
         EMPLOYEE_RESUME: resume,
         EMPLOYEE_NAME: name,
@@ -73,7 +73,7 @@ def Experience_Db(
             title,  # string nullable
     ):
         return {
-            EMPLOYEE_photo: photo,
+            EMPLOYEE_PHOTO: photo,
             EMPLOYEE_BIO: bio,
             EMPLOYEE_RESUME: resume,
             EMPLOYEE_NAME: name,
@@ -84,7 +84,7 @@ def Experience_Db(
 
     def map_to_employee_api(employee_db):
         return Employee_API(
-            photo=employee_db[EMPLOYEE_photo],
+            photo=employee_db[EMPLOYEE_PHOTO],
             bio=employee_db[EMPLOYEE_BIO],
             resume=employee_db[EMPLOYEE_RESUME],
             name=employee_db[EMPLOYEE_NAME],

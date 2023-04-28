@@ -7,7 +7,7 @@ def open_db_connection():
         db = mysqldb.connect(
             host="localhost",
             user="root",
-            password="123.Abcd",
+            password="1234",
             database="hire_wire_db"
         )
     except Exception as e:
