@@ -34,7 +34,3 @@ def init():
 if __name__ == "__main__":
     init_db_tables()
     app.run(debug=True)
-
-# use case to check have valid toke that validate token is not blank or null
-# token is not expired
-# if okay proceed else throw exception with 401 response

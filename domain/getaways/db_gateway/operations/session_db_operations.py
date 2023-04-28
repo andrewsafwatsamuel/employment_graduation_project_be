@@ -16,13 +16,16 @@ def insert_session(session_db, table_name):
 
 def retrieve_session_by_token(auth_token, table_name):
     session = query_single_value(retrieve_session_by_token_query(table_name), [auth_token])
-    return Session_Db(
-        session[0],
-        session[1],
-        session[2],
-        session[3],
-        session[4]
-    )
+    if session is None:
+        return None
+    else:
+        return Session_Db(
+            session[0],
+            session[1],
+            session[2],
+            session[3],
+            session[4]
+        )
 
 
 def delete_sessions_by_email(email, table_name):
