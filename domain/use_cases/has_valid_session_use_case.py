@@ -12,6 +12,10 @@ def has_valid_session_use_case(
         operation=retrieve_session_by_token
 ):
     if not is_valid_string_input(auth_token):
-        return False
+        raise Exception("Not Authorized")
     session = operation(auth_token, table_name)
-    return False if session is None or (current_time_millis() - session[CREATED_AT]) > expiry_duration else True
+    if session is None:
+        raise Exception("Not Authorized")
+    is_valid = current_time_millis() - session[CREATED_AT] < expiry_duration
+    session.update({"is_valid": is_valid})
+    return session

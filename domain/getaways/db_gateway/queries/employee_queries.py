@@ -2,7 +2,7 @@ from entities.models.employee import *
 from domain.getaways.db_gateway.db_utils import *
 
 insert_employee_query = create_insert_query(EMPLOYEE_TABLE_NAME, [
-    EMPLOYEE_photo, EMPLOYEE_BIO, EMPLOYEE_RESUME, EMPLOYEE_NAME, EMPLOYEE_PHONE, EMPLOYEE_EMAIL, EMPLOYEE_TITLE,
+    EMPLOYEE_PHOTO, EMPLOYEE_BIO, EMPLOYEE_RESUME, EMPLOYEE_NAME, EMPLOYEE_PHONE, EMPLOYEE_EMAIL, EMPLOYEE_TITLE,
     EMPLOYEE_PASSWORD
 ])
 
