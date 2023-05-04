@@ -18,6 +18,7 @@ EXPERIENCE_EMP_TITLE = "title"
 EXPERIENCE_EMPLOYMENT_TYPE = "employment_type"
 EXPERIENCE_START_DATE = "start_date"
 EXPERIENCE_END_DATE = "end_date"
+EXP_COMPANY_NAME = "company_name"
 
 
 # database model

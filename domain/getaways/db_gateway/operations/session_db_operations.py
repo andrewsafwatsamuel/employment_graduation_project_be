@@ -1,10 +1,13 @@
-from domain.getaways.db_gateway.queries.session_queries import *
+from domain.getaways.db_gateway.db_utils import *
 from domain.getaways.db_gateway.db_manager import *
 from entities.models.session import *
 
 
 def insert_session(session_db, table_name):
-    row = insert_new_record(insert_new_session_query(table_name), (
+    insert_session_query = create_insert_query(table_name, [
+        OWNER_ID, Auth_TOKEN, REFRESH_TOKEN, OWNER_EMAIL, CREATED_AT
+    ])
+    row = insert_new_record(insert_session_query, (
         session_db[OWNER_ID],
         session_db[Auth_TOKEN],
         session_db[REFRESH_TOKEN],
@@ -15,7 +18,11 @@ def insert_session(session_db, table_name):
 
 
 def retrieve_session_by_token(auth_token, table_name):
-    session = query_single_value(retrieve_session_by_token_query(table_name), [auth_token])
+    query = create_retrieve_query(
+        table_name,
+        where_clause=f"{Auth_TOKEN} = {parametrized_query(0)}"
+    )
+    session = query_single_value(query, [auth_token])
     if session is None:
         return None
     else:
@@ -29,8 +36,16 @@ def retrieve_session_by_token(auth_token, table_name):
 
 
 def delete_sessions_by_email(email, table_name):
-    return delete_db_entries(delete_sessions_by_email_query(table_name), [email])
+    delete_session_statement = create_delete_query(
+        table_name,
+        f"{OWNER_EMAIL} = {parametrized_query(0)}"
+    )
+    return delete_db_entries(delete_session_statement, [email])
 
 
 def delete_session_by_token(auth_token, table_name):
-    return delete_db_entries(delete_session_by_token_query(table_name), [auth_token])
+    delete_session_statement = create_delete_query(
+        table_name,
+        f"{Auth_TOKEN} = {parametrized_query(0)}"
+    )
+    return delete_db_entries(delete_session_statement, [auth_token])
