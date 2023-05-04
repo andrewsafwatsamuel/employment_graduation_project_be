@@ -37,14 +37,14 @@ company_phone_creation_query = f""" CREATE TABLE IF NOT EXISTS company_phone (
 );
 """
 
-company_address_creation_query = f""" CREATE TABLE IF NOT EXISTS company_address (
- {COMPANY_ID_FK} INTEGER , 
- {COMPANY_COUNTRY} VARCHAR(100) NOT NULL , 
- {COMPANY_CITY} VARCHAR(100) NOT NULL , 
- {COMPANY_STREET} VARCHAR(100) NOT NULL , 
- FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) ON DELETE CASCADE 
-);
-"""
+# company_address_creation_query = f""" CREATE TABLE IF NOT EXISTS company_address (
+#  {COMPANY_ID_FK} INTEGER ,
+#  {COMPANY_COUNTRY} VARCHAR(100) NOT NULL ,
+#  {COMPANY_CITY} VARCHAR(100) NOT NULL ,
+#  {COMPANY_STREET} VARCHAR(100) NOT NULL ,
+#  FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) ON DELETE CASCADE
+# );
+# """
 
 job_listing_creation_query = f""" CREATE TABLE IF NOT EXISTS job_listing (
   {JOB_LISTING_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
@@ -68,13 +68,12 @@ job_application_creation_query = f""" CREATE TABLE IF NOT EXISTS job_application
 
 experience_creation_query = f""" CREATE TABLE IF NOT EXISTS experience (
   {EMPLOYEE_ID_FK} INTEGER NOT NULL , 
-  {COMPANY_ID_FK} INTEGER NOT NULL , 
+  {EXP_COMPANY_NAME} VARCHAR(100) NOT NULL , 
   {EXPERIENCE_EMP_TITLE} VARCHAR(50) NOT NULL , 
   {EXPERIENCE_EMPLOYMENT_TYPE} INTEGER , 
   {EXPERIENCE_START_DATE} DATE NOT NULL , 
   {EXPERIENCE_END_DATE} DATE , 
-  FOREIGN KEY ({EMPLOYEE_ID_FK}) REFERENCES employee({EMPLOYEE_ID}) , 
-  FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) 
+  FOREIGN KEY ({EMPLOYEE_ID_FK}) REFERENCES employee({EMPLOYEE_ID})
 );
 """
 
@@ -103,7 +102,7 @@ def init_db_tables():
     make_db_query(employee_creation_query)
     make_db_query(company_creationQuery)
     make_db_query(company_phone_creation_query)
-    make_db_query(company_address_creation_query)
+    # make_db_query(company_address_creation_query)
     make_db_query(job_listing_creation_query)
     make_db_query(job_application_creation_query)
     make_db_query(experience_creation_query)
