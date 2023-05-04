@@ -1,9 +1,20 @@
-from domain.getaways.db_gateway.queries.company_queries import *
+from entities.models.company import *
+from domain.getaways.db_gateway.db_utils import *
 from domain.getaways.db_gateway.db_manager import *
 
 
 def insert_company(company_db):
-    return insert_new_record(insert_company_query, (
+    insert_company_statement = create_insert_query(COMPANY_TABLE_NAME, [
+        COMPANY_LOGO,
+        COMPANY_NAME,
+        COMPANY_INDUSTRY,
+        COMPANY_WEBSITE,
+        COMPANY_ABOUT,
+        COMPANY_EMAIL,
+        COMPANY_FACEBOOK_PAGE,
+        COMPANY_PASSWORD
+    ])
+    return insert_new_record(insert_company_statement, (
         company_db[COMPANY_LOGO],
         company_db[COMPANY_NAME],
         company_db[COMPANY_INDUSTRY],
@@ -15,17 +26,12 @@ def insert_company(company_db):
     ))
 
 
-def insert_company_session(session_db):
-    return insert_new_record(insert_company_session_query, (
-        session_db[OWNER_ID],
-        session_db[Auth_TOKEN],
-        session_db[REFRESH_TOKEN],
-        session_db[OWNER_EMAIL],
-        session_db[CREATED_AT]
-    ))
-
-
 def retrieve_company_by_email(email):
+    retrieve_company_by_email_query = create_retrieve_query(
+        table_name=COMPANY_TABLE_NAME,
+        where_clause=f"{COMPANY_EMAIL} = {parametrized_query(0)}"
+    )
+
     company_db = query_single_value(retrieve_company_by_email_query, [email])
     if company_db is None:
         return None

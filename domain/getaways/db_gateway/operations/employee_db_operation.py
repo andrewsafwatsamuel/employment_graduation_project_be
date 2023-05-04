@@ -1,9 +1,15 @@
-from domain.getaways.db_gateway.queries.employee_queries import *
+from entities.models.employee import *
+from domain.getaways.db_gateway.db_utils import *
 from domain.getaways.db_gateway.db_manager import *
 
 
 def insert_employee(employee_db):
-    return insert_new_record(insert_employee_query, (
+    insert_employee_statement = create_insert_query(EMPLOYEE_TABLE_NAME, [
+        EMPLOYEE_photo, EMPLOYEE_BIO, EMPLOYEE_RESUME, EMPLOYEE_NAME, EMPLOYEE_PHONE, EMPLOYEE_EMAIL, EMPLOYEE_TITLE,
+        EMPLOYEE_PASSWORD
+    ])
+
+    return insert_new_record(insert_employee_statement, (
         employee_db[EMPLOYEE_photo],
         employee_db[EMPLOYEE_BIO],
         employee_db[EMPLOYEE_RESUME],
@@ -16,6 +22,10 @@ def insert_employee(employee_db):
 
 
 def retrieve_employee_by_email(email):
+    retrieve_employee_by_email_query = create_retrieve_query(
+        table_name=EMPLOYEE_TABLE_NAME,
+        where_clause=f"{EMPLOYEE_EMAIL} = {parametrized_query(0)}"
+    )
     emp_db = query_single_value(retrieve_employee_by_email_query, [email])
     if emp_db is None:
         return None
