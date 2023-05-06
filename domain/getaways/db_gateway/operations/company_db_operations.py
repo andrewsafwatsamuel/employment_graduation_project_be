@@ -1,9 +1,14 @@
-from entities.models.company import *
-from domain.getaways.db_gateway.db_utils import *
 from domain.getaways.db_gateway.db_manager import *
+from domain.getaways.db_gateway.db_utils import *
+from entities.models.company import *
 
 
-def insert_company(company_db):
+def insert_company(company_db, company_phones):
+    return insert_on_many_tables(
+        lambda db, cursor: company_insertion_operations(company_db, company_phones, db, cursor))
+
+
+def company_insertion_operations(company_db, company_phones, db, cursor):
     insert_company_statement = create_insert_query(COMPANY_TABLE_NAME, [
         COMPANY_LOGO,
         COMPANY_NAME,
@@ -14,16 +19,34 @@ def insert_company(company_db):
         COMPANY_FACEBOOK_PAGE,
         COMPANY_PASSWORD
     ])
-    return insert_new_record(insert_company_statement, (
-        company_db[COMPANY_LOGO],
-        company_db[COMPANY_NAME],
-        company_db[COMPANY_INDUSTRY],
-        company_db[COMPANY_WEBSITE],
-        company_db[COMPANY_ABOUT],
-        company_db[COMPANY_EMAIL],
-        company_db[COMPANY_FACEBOOK_PAGE],
-        company_db[COMPANY_PASSWORD]
-    ))
+    insert_company_phones_statement = create_insert_multi_values_query(
+        COMPANY_PHONE_TABLE_NAME, [
+            COMPANY_ID_FK,
+            COMPANY_PHONE
+        ], len(company_phones)
+    )
+    try:
+        cursor.execute(insert_company_statement, (
+            company_db[COMPANY_LOGO],
+            company_db[COMPANY_NAME],
+            company_db[COMPANY_INDUSTRY],
+            company_db[COMPANY_WEBSITE],
+            company_db[COMPANY_ABOUT],
+            company_db[COMPANY_EMAIL],
+            company_db[COMPANY_FACEBOOK_PAGE],
+            company_db[COMPANY_PASSWORD]
+        ))
+        company_id = cursor.lastrowid
+        values = []
+        for phone in company_phones:
+            values.append(company_id)
+            values.append(phone)
+        cursor.execute(insert_company_phones_statement, values)
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        raise e
+    return company_id
 
 
 def retrieve_company_by_email(email):

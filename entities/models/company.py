@@ -10,10 +10,11 @@ COMPANY_EMAIL = "email"
 COMPANY_FACEBOOK_PAGE = "fbPage"
 COMPANY_PASSWORD = "password"
 COMPANY_ID_FK = "company_id"
+COMPANY_PHONE_TABLE_NAME = "company_phone"
 COMPANY_PHONE = "phone"
-COMPANY_COUNTRY = "country"
-COMPANY_CITY = "city"
-COMPANY_STREET = "street"
+# COMPANY_COUNTRY = "country"
+# COMPANY_CITY = "city"
+# COMPANY_STREET = "street"
 
 
 # database model
