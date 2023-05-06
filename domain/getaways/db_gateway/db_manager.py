@@ -59,6 +59,25 @@ def query_single_value(query, where_args):
     return result
 
 
+def query_multiple_values(query, where_args):
+    db = open_db_connection()
+    result = None
+    if db is None:
+        return result
+    cursor = db.cursor(db)
+    try:
+        cursor.execute(query.format(*where_args))
+        rows = cursor.fetchall()
+        print(len(rows))
+        result = []
+        for row in rows:
+            result.append(row)
+    finally:
+        cursor.close()
+        db.close()
+    return result
+
+
 def delete_db_entries(query, where_args):
     db = open_db_connection()
     row_count = None
