@@ -49,6 +49,7 @@ def company_insertion_operations(company_db, company_phones, db, cursor):
     return company_id
 
 
+
 def retrieve_company_by_email(email):
     retrieve_company_by_email_query = create_retrieve_query(
         table_name=COMPANY_TABLE_NAME,
