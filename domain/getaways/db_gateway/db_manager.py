@@ -30,6 +30,20 @@ def insert_new_record(query, values):
     return row_id
 
 
+def insert_on_many_tables(operation):
+    db = open_db_connection()
+    row_id = None
+    if db is None:
+        return row_id
+    cursor = db.cursor(db)
+    try:
+        row_id = operation(db, cursor)
+    finally:
+        cursor.close()
+        db.close()
+    return row_id
+
+
 def query_single_value(query, where_args):
     db = open_db_connection()
     result = None
