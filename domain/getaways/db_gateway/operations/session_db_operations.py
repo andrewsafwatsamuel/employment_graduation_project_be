@@ -1,4 +1,4 @@
-from domain.getaways.db_gateway.db_utils import *
+from domain.getaways.db_gateway.db_statement_utils import *
 from domain.getaways.db_gateway.db_manager import *
 from entities.models.session import *
 
