@@ -1,17 +1,19 @@
 from entities.models.employee import *
 from domain.getaways.db_gateway.db_statement_utils import *
-from domain.getaways.db_gateway.db_utils import *
 from domain.getaways.db_gateway.db_manager import *
 
 
 def insert_employee(employee_db, experiences):
-    return 0  # insert_new_record(insert_employee_statement, )
+    return insert_on_many_tables(
+        lambda db, cursor: insert_employee_with_experience_transaction(employee_db, experiences, db, cursor)
+    )
 
 
 def insert_employee_with_experience_transaction(employee_db, experiences, db, cursor):
     try:
         employee_id = __insert_to_employee_tabel(employee_db, cursor)
-        __insert_into_experience_table(employee_id, experiences, cursor)
+        if experiences is not None and len(experiences) > 0:
+            __insert_into_experience_table(employee_id, experiences, cursor)
         db.commit()
     except Exception as e:
         db.rollback()
@@ -42,8 +44,20 @@ def __insert_into_experience_table(emp_id, experiences, cursor):
         EXPERIENCE_START_DATE,
         EXPERIENCE_END_DATE
     ), len(experiences))
-    values = flatten_dict_array_values(emp_id, experiences)
+    values = __flatten_experiences_values(emp_id, experiences)
     cursor.execute(insert_experiences_statement, values)
+
+
+def __flatten_experiences_values(foreign_key, dict_array):
+    result = []
+    for dictionary in dict_array:
+        result.append(foreign_key)
+        result.append(dictionary[EXP_COMPANY_NAME])
+        result.append(dictionary[EXPERIENCE_EMP_TITLE])
+        result.append(dictionary[EXPERIENCE_EMPLOYMENT_TYPE])
+        result.append(dictionary[EXPERIENCE_START_DATE])
+        result.append(dictionary[EXPERIENCE_END_DATE])
+    return result
 
 
 def retrieve_employee_by_email(email):

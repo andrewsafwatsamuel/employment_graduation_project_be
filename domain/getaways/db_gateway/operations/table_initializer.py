@@ -66,7 +66,7 @@ job_application_creation_query = f""" CREATE TABLE IF NOT EXISTS job_application
 );
 """
 
-experience_creation_query = f""" CREATE TABLE IF NOT EXISTS {EMPLOYEE_TABLE_NAME} (
+experience_creation_query = f""" CREATE TABLE IF NOT EXISTS {EXPERIENCE_TABLE_NAME} (
   {EMPLOYEE_ID_FK} INTEGER NOT NULL , 
   {EXP_COMPANY_NAME} VARCHAR(100) NOT NULL , 
   {EXPERIENCE_EMP_TITLE} VARCHAR(50) NOT NULL , 
