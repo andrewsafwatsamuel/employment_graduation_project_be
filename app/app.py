@@ -46,6 +46,11 @@ def getJobs_for_a_company():
     return get_jobs_by_company_id(request.headers)
 
 
+@app.route("/job-listing/update-status", methods=['PUT'])
+def update_job_listing_status():
+    return update_job_status(request.form, request.headers)
+
+
 @app.route("/")
 def init():
     return "Hello World!"
