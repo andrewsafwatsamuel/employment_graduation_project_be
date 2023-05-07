@@ -42,3 +42,10 @@ def search_job_listing_by_company_or_title(search_key):
             JOB_LISTING_ID: value[4]
         })
     return results if len(results) > 0 else None
+
+
+def insert_new_job_application(job_application_db):
+    query = create_insert_query(JOB_APPLICATION_TABLE_NAME, [EMPLOYEE_ID_FK, JOB_LISTING_ID_FK, JOB_APPLICATION_STATUS])
+    values = (job_application_db[EMPLOYEE_ID_FK], job_application_db[JOB_LISTING_ID_FK],
+              job_application_db[JOB_APPLICATION_STATUS])
+    return insert_new_record(query, values)

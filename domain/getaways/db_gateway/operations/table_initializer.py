@@ -57,7 +57,7 @@ job_listing_creation_query = f""" CREATE TABLE IF NOT EXISTS {JOB_LISTING_TABLE_
 );
 """
 
-job_application_creation_query = f""" CREATE TABLE IF NOT EXISTS job_application (
+job_application_creation_query = f""" CREATE TABLE IF NOT EXISTS {JOB_APPLICATION_TABLE_NAME} (
   {EMPLOYEE_ID_FK} INTEGER NOT NULL , 
   {JOB_LISTING_ID_FK} INTEGER NOT NULL , 
   {JOB_APPLICATION_STATUS} VARCHAR(30) NOT NULL , 
