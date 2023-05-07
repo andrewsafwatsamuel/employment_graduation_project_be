@@ -26,9 +26,14 @@ def login_company_endpoint():
     return login_company(request.form)
 
 
-@app.route("/companies/add-new-job", methods=['POST'])
+@app.route("/job-listing/add-new-job", methods=['POST'])
 def add_new_job():
     return create_job_listing(request.form, request.headers)
+
+
+@app.route("/job-listing/search", methods=['GET'])
+def search_job():
+    return search_job_by_company_or_title(request.args)
 
 
 @app.route("/")
