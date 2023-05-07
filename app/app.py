@@ -51,6 +51,11 @@ def update_job_listing_status():
     return update_job_status(request.form, request.headers)
 
 
+@app.route("/job-listing/update-application-status", methods=['PUT'])
+def update_job_application_status_end_point():
+    return update_application_status(request.form, request.headers)
+
+
 @app.route("/")
 def init():
     return "Hello World!"
