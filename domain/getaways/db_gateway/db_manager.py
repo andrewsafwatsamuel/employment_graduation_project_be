@@ -68,7 +68,6 @@ def query_multiple_values(query, where_args):
     try:
         cursor.execute(query.format(*where_args))
         rows = cursor.fetchall()
-        print(len(rows))
         result = []
         for row in rows:
             result.append(row)
