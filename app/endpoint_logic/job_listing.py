@@ -5,6 +5,7 @@ from domain.use_cases.get_session_by_token_use_case import *
 from domain.use_cases.apply_for_job_use_case import *
 from domain.use_cases.search_job_by_company_or_title_use_case import *
 from domain.use_cases.get_all_jobs_by_company_id_use_case import *
+from domain.use_cases.toggle_job_listing_status_use_case import *
 from domain.utils.dict_utils import get_or_none
 from domain.utils.validation_utils import has_valid_session
 from entities.constants.constants import AUTH_TOKEN
@@ -82,3 +83,25 @@ def get_jobs_by_company_id(request_headers, use_case=get_all_jobs_by_company_id_
     except Exception as e:
         return jsonify({"message": str(e.args)}), 500
     return jsonify(result if result is not None else {"message", "No Jobs found"}), 200
+
+
+def update_job_status(request_body, request_headers, use_case=toggle_job_listing_status_use_case):
+    auth_token = get_or_none(request_headers, AUTH_TOKEN)
+    job_listing_id = get_or_none(request_body, JOB_LISTING_ID)
+    if auth_token is None:
+        return jsonify({"message": "unauthorized"}), 401
+    try:
+        session = get_session_by_token_use_case(auth_token, COMPANY_SESSION_TABLE_NAME)
+    except Exception as e:
+        return jsonify({"message": e.args}), 401
+    if not has_valid_session(session):
+        return jsonify({"message": "unauthorized"}), 401
+    try:
+        use_case(job_listing_id, session[OWNER_ID])
+    except Exception as e:
+        message = str(e.args)
+        if message.__contains__("unauthorized"):
+            return jsonify({"message": "unauthorized"}), 401
+        else:
+            return jsonify({"message": str(e.args)}), 500
+    return jsonify({"message": "updated successfully "}), 200

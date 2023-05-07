@@ -71,3 +71,27 @@ def retrieve_jobs_by_company_id(company_id):
         result.pop(COMPANY_ID_FK)
         results.append(result)
     return results if len(results) > 0 else None
+
+
+def retrieve_job_by_id(job_listing_id):
+    query = create_retrieve_query(JOB_LISTING_TABLE_NAME, where_clause=f"{JOB_LISTING_ID} = {'{0}'}")
+    row_value = query_single_value(query, [job_listing_id])
+    if row_value is None:
+        return None
+    else:
+        return Job_Listing_Db(
+            row_value[0],
+            row_value[1],
+            row_value[2],
+            row_value[3],
+            row_value[4],
+            row_value[5]
+        )
+
+
+def update_job_listing_status(job_listing_id, job_listing_status):
+    update_job_status_statement = f"""
+      UPDATE {JOB_LISTING_TABLE_NAME} SET {JOB_LISTING_STATUS} = {'{0}'}
+      WHERE {JOB_LISTING_ID} = {'{1}'}
+    """
+    make_db_query(update_job_status_statement.format(job_listing_status, job_listing_id))
