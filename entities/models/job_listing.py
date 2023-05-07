@@ -26,10 +26,10 @@ SENIOR = "senior"
 LEAD = "lead"
 
 # Application status
-OPEN = "open"
-INTERVIEWING = "interviewing"
-ACCEPTED = "accepted"
-REJECTED = "rejected"
+APPLICATION_OPEN = "open"
+APPLICATION_INTERVIEWING = "interviewing"
+APPLICATION_ACCEPTED = "accepted"
+APPLICATION_REJECTED = "rejected"
 
 
 def Job_Listing_Db(

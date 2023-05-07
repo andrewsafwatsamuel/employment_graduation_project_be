@@ -36,6 +36,11 @@ def search_job():
     return search_job_by_company_or_title(request.args)
 
 
+@app.route("/job-listing/apply", methods=['POST'])
+def search_application():
+    return apply_for_job(request.form, request.headers)
+
+
 @app.route("/")
 def init():
     return "Hello World!"
