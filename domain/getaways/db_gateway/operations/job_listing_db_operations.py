@@ -49,3 +49,25 @@ def insert_new_job_application(job_application_db):
     values = (job_application_db[EMPLOYEE_ID_FK], job_application_db[JOB_LISTING_ID_FK],
               job_application_db[JOB_APPLICATION_STATUS])
     return insert_new_record(query, values)
+
+
+def retrieve_jobs_by_company_id(company_id):
+    query = create_retrieve_query(
+        JOB_LISTING_TABLE_NAME,
+        [JOB_LISTING_ID, JOB_LISTING_EXP_LEVEL, JOB_LISTING_TITLE, JOB_LISTING_STATUS, JOB_LISTING_DESCRIPTION],
+        f"{COMPANY_ID_FK} = {'{0}'}"
+    )
+    row_results = query_multiple_values(query, [company_id])
+    results = []
+    for row_result in row_results:
+        result = Job_Listing_Db(
+            row_result[0],
+            None,
+            row_result[1],
+            row_result[2],
+            row_result[3],
+            row_result[4]
+        )
+        result.pop(COMPANY_ID_FK)
+        results.append(result)
+    return results if len(results) > 0 else None
