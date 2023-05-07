@@ -16,7 +16,5 @@ def toggle_job_listing_status_use_case(
         raise Exception("Invalid data")
     elif job_listing[COMPANY_ID_FK] != company_id:
         raise Exception("unauthorized")
-    print(job_listing[JOB_LISTING_STATUS])
     status = 0 if job_listing[JOB_LISTING_STATUS] == 1 else 1
-    print(status)
     update_operation(job_listing_id, status)
