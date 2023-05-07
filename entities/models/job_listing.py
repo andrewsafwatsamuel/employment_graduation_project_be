@@ -8,9 +8,10 @@ JOB_LISTING_EXP_LEVEL = "exp_level"
 JOB_LISTING_TITLE = "title"
 JOB_LISTING_STATUS = "status"
 JOB_LISTING_DESCRIPTION = "description"
+JOB_LISTING_ID_FK = "job_listing_id"
 
 # application
-JOB_LISTING_ID_FK = "job_listing_id"
+JOB_APPLICATION_TABLE_NAME = "job_application"
 JOB_APPLICATION_STATUS = "status"
 
 # Job listing status
@@ -25,10 +26,10 @@ SENIOR = "senior"
 LEAD = "lead"
 
 # Application status
-OPEN = "open"
-INTERVIEWING = "interviewing"
-ACCEPTED = "accepted"
-REJECTED = "rejected"
+APPLICATION_OPEN = "open"
+APPLICATION_INTERVIEWING = "interviewing"
+APPLICATION_ACCEPTED = "accepted"
+APPLICATION_REJECTED = "rejected"
 
 
 def Job_Listing_Db(
