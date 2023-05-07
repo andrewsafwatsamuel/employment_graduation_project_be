@@ -4,6 +4,7 @@ from domain.use_cases.add_new_job_listing_use_case import add_new_job_listing_us
 from domain.use_cases.get_session_by_token_use_case import *
 from domain.use_cases.apply_for_job_use_case import *
 from domain.use_cases.search_job_by_company_or_title_use_case import *
+from domain.use_cases.get_all_jobs_by_company_id_use_case import *
 from domain.utils.dict_utils import get_or_none
 from domain.utils.validation_utils import has_valid_session
 from entities.constants.constants import AUTH_TOKEN
@@ -56,7 +57,7 @@ def apply_for_job(request_body, request_headers, use_case=apply_for_job_use_case
         return jsonify({"message": e.args}), 401
     if not has_valid_session(session):
         return jsonify({"message": "unauthorized"}), 401
-    job_listing_id = get_or_none(request_body,JOB_LISTING_ID_FK)
+    job_listing_id = get_or_none(request_body, JOB_LISTING_ID_FK)
     job_application = Job_Application_Db(session[OWNER_ID], job_listing_id, None)
     try:
         applied_successfully = use_case(job_application)
@@ -64,3 +65,20 @@ def apply_for_job(request_body, request_headers, use_case=apply_for_job_use_case
         return jsonify({"message": str(e.args)}), 500
     return (jsonify({"message": "Applied successfully"}), 200) if applied_successfully else (jsonify(
         {"message": "Unexpected error"}), 500)
+
+
+def get_jobs_by_company_id(request_headers, use_case=get_all_jobs_by_company_id_use_case):
+    auth_token = get_or_none(request_headers, AUTH_TOKEN)
+    if auth_token is None:
+        return jsonify({"message": "unauthorized"}), 401
+    try:
+        session = get_session_by_token_use_case(auth_token, COMPANY_SESSION_TABLE_NAME)
+    except Exception as e:
+        return jsonify({"message": e.args}), 401
+    if not has_valid_session(session):
+        return jsonify({"message": "unauthorized"}), 401
+    try:
+        result = use_case(session[OWNER_ID])
+    except Exception as e:
+        return jsonify({"message": str(e.args)}), 500
+    return jsonify(result if result is not None else {"message", "No Jobs found"}), 200

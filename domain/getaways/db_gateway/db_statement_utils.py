@@ -39,8 +39,10 @@ def create_retrieve_query(table_name, columns=None, where_clause=None):
     if columns is None or len(where_clause) == 0:
         selection = "*"
     else:
-        selection = str(columns).replace("[", "").replace("]", "")
-    query = f""" SELECT {selection} FROM {table_name} {where}"""
+        selection = ""
+        for column in columns:
+            selection += f"{column} , "
+    query = f""" SELECT {selection.removesuffix(" , ")} FROM {table_name} {where}"""
     return query
 
 
