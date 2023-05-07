@@ -2,6 +2,10 @@ def parametrized_query(index):
     return "'{" + str(index) + "}'"
 
 
+def get_column(table_name, column):
+    return f"{table_name}.{column}"
+
+
 def create_insert_query(table_name, params):
     params_string = ""
     parameterized_indexes = ""

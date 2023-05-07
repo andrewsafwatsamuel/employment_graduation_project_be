@@ -2,6 +2,7 @@ from flask import jsonify
 
 from domain.use_cases.add_new_job_listing_use_case import add_new_job_listing_use_case
 from domain.use_cases.get_session_by_token_use_case import *
+from domain.use_cases.search_job_by_company_or_title_use_case import *
 from domain.utils.dict_utils import get_or_none
 from domain.utils.validation_utils import has_valid_session
 from entities.constants.constants import AUTH_TOKEN
@@ -32,3 +33,13 @@ def create_job_listing(request_body, request_headers):
         return jsonify({"message": str(e.args)}), 400
     return (jsonify({"message": "Job created successfully"}), 200) if inserted_successfully else (jsonify(
         {"message": "Unexpected error"}), 400)
+
+
+def search_job_by_company_or_title(request_args):
+    search_key = get_or_none(request_args, "searchKey")
+    try:
+        jobs = search_job_by_company_or_title_use_case(search_key)
+    except Exception as e:
+        return jsonify({"message": str(e.args)}), 500
+    return jsonify(jobs if jobs is not None and len(jobs) > 0 else {
+        "message": f"No jobs found for '{search_key}' please try another keyword"}), 200
