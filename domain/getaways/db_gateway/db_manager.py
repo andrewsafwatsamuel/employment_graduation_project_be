@@ -14,6 +14,21 @@ def make_db_query(query):
         db.close()
 
 
+def update_db_entries(query, args):
+    db = open_db_connection()
+    if db is None:
+        return
+    cursor = db.cursor(db)
+    try:
+        cursor.execute(query, args)
+        db.commit()
+        row_count = cursor.rowcount
+    finally:
+        cursor.close()
+        db.close()
+    return row_count
+
+
 def insert_new_record(query, values):
     db = open_db_connection()
     row_id = None
