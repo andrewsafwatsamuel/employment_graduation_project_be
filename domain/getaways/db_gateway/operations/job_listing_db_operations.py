@@ -91,15 +91,33 @@ def retrieve_job_by_id(job_listing_id):
 
 def update_job_listing_status(job_listing_id, job_listing_status):
     update_job_status_statement = f"""
-      UPDATE {JOB_LISTING_TABLE_NAME} SET {JOB_LISTING_STATUS} = {'{0}'}
-      WHERE {JOB_LISTING_ID} = {'{1}'}
+      UPDATE {JOB_LISTING_TABLE_NAME} SET {JOB_LISTING_STATUS} = %s
+      WHERE {JOB_LISTING_ID} = %s
     """
-    make_db_query(update_job_status_statement.format(job_listing_status, job_listing_id))
+    return update_db_entries(update_job_status_statement, (job_listing_status, job_listing_id))
+
+
+def update_job_listing(job_listing_db):
+    update_job_status_statement = f"""
+      UPDATE {JOB_LISTING_TABLE_NAME} SET {JOB_LISTING_EXP_LEVEL} = %s , 
+      {JOB_LISTING_TITLE} = %s , 
+      {JOB_LISTING_STATUS} = %s , 
+      {JOB_LISTING_DESCRIPTION} = %s
+      WHERE {JOB_LISTING_ID} = %s AND {COMPANY_ID_FK} = %s
+    """
+    return update_db_entries(update_job_status_statement, (
+        job_listing_db[JOB_LISTING_EXP_LEVEL],
+        job_listing_db[JOB_LISTING_TITLE],
+        job_listing_db[JOB_LISTING_STATUS],
+        job_listing_db[JOB_LISTING_DESCRIPTION],
+        job_listing_db[JOB_LISTING_ID],
+        job_listing_db[COMPANY_ID_FK]
+    ))
 
 
 def update_job_application_status(status, job_listing_id, employee_id):
     update_application_status_statement = f"""
-      UPDATE {JOB_APPLICATION_TABLE_NAME} SET {JOB_APPLICATION_STATUS} = '{'{0}'}'
-      WHERE {JOB_LISTING_ID_FK} = {'{1}'} AND {EMPLOYEE_ID_FK} = {'{2}'}
+      UPDATE {JOB_APPLICATION_TABLE_NAME} SET {JOB_APPLICATION_STATUS} = %s
+      WHERE {JOB_LISTING_ID_FK} = %s AND {EMPLOYEE_ID_FK} = %s
     """
-    make_db_query(update_application_status_statement.format(status, job_listing_id, employee_id))
+    return update_db_entries(update_application_status_statement, (status, job_listing_id, employee_id))
