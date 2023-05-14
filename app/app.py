@@ -61,6 +61,11 @@ def update_job_listing_endpoint(job_listing_id):
     return update_job_listing(request.form, request.headers, job_listing_id)
 
 
+@app.route("/job-listing/<job_listing_id>/applications", methods=['GET'])
+def get_job_applications_end_point(job_listing_id):
+    return get_job_applications(request.headers, job_listing_id)
+
+
 @app.route("/")
 def init():
     return "Hello World!"

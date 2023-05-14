@@ -7,6 +7,7 @@ from domain.use_cases.update_application_status_use_case import *
 from domain.use_cases.search_job_by_company_or_title_use_case import *
 from domain.use_cases.get_all_jobs_by_company_id_use_case import *
 from domain.use_cases.toggle_job_listing_status_use_case import *
+from domain.use_cases.get_job_applications_use_case import *
 from domain.use_cases.update_job_listing_use_case import *
 from domain.utils.dict_utils import get_or_none
 from domain.utils.validation_utils import has_valid_session
@@ -160,6 +161,28 @@ def update_job_listing(
     )
     try:
         result = use_case(job_listing_db)
+    except Exception as e:
+        return jsonify({"message": str(e.args)}), 400
+    return result
+
+
+def get_job_applications(
+        request_headers,
+        job_listing_id,
+        use_case=get_job_applications_use_case,
+        session_use_case=get_session_by_token_use_case
+):
+    auth_token = get_or_none(request_headers, AUTH_TOKEN)
+    if auth_token is None:
+        return jsonify({"message": "unauthorized"}), 401
+    try:
+        session = session_use_case(auth_token, COMPANY_SESSION_TABLE_NAME)
+    except Exception as e:
+        return jsonify({"message": e.args}), 401
+    if not has_valid_session(session):
+        return jsonify({"message": "unauthorized"}), 401
+    try:
+        result = use_case(session[OWNER_ID], job_listing_id)
     except Exception as e:
         return jsonify({"message": str(e.args)}), 400
     return result
