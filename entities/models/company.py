@@ -12,6 +12,8 @@ COMPANY_PASSWORD = "password"
 COMPANY_ID_FK = "company_id"
 COMPANY_PHONE_TABLE_NAME = "company_phone"
 COMPANY_PHONE = "phone"
+
+
 # COMPANY_COUNTRY = "country"
 # COMPANY_CITY = "city"
 # COMPANY_STREET = "street"
@@ -27,7 +29,8 @@ def Company_Db(
         about,  # string not null
         email,  # string not null
         fb_page,  # string nullable
-        password  # string not null
+        password,  # string not null
+        phones=None,
 ):
     return {
         COMPANY_ID: company_id,
@@ -38,7 +41,8 @@ def Company_Db(
         COMPANY_ABOUT: about,
         COMPANY_EMAIL: email,
         COMPANY_FACEBOOK_PAGE: fb_page,
-        COMPANY_PASSWORD: password
+        COMPANY_PASSWORD: password,
+        COMPANY_PHONE_TABLE_NAME: phones
     }
 
 
@@ -46,13 +50,4 @@ def Company_Phone_Db(company_id, phone):
     return {
         COMPANY_ID_FK: company_id,
         COMPANY_PHONE: phone
-    }
-
-
-def Company_address_db(company_id, country, city, street):
-    return {
-        COMPANY_ID_FK: company_id,
-        COMPANY_COUNTRY: country,
-        COMPANY_CITY: city,
-        COMPANY_STREET: street
     }

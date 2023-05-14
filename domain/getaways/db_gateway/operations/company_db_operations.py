@@ -49,7 +49,6 @@ def company_insertion_operations(company_db, company_phones, db, cursor):
     return company_id
 
 
-
 def retrieve_company_by_email(email):
     retrieve_company_by_email_query = create_retrieve_query(
         table_name=COMPANY_TABLE_NAME,
@@ -71,3 +70,54 @@ def retrieve_company_by_email(email):
             company_db[7],
             company_db[8]
         )
+
+
+def retrieve_company_by_id(company_id, db_connection=open_db_connection()):
+    cursor = db_connection.cursor()
+    try:
+        company = __retrieve_company_by_id(company_id, cursor)
+        if company is not None:
+            company.update({COMPANY_PHONE_TABLE_NAME: __retrieve_company_phones(company_id, cursor)})
+    finally:
+        cursor.close()
+        db_connection.close()
+    return company
+
+
+def __retrieve_company_by_id(company_id, cursor):
+    retrieve_company_by_id_statement = create_retrieve_query(
+        table_name=COMPANY_TABLE_NAME,
+        where_clause=f"{COMPANY_ID} = {parametrized_query(0)}"
+    )
+    cursor.execute(retrieve_company_by_id_statement.format(company_id))
+    result = cursor.fetchone()
+    if result is None:
+        return None
+    else:
+        company = Company_Db(
+            result[0],
+            result[1],
+            result[2],
+            result[3],
+            result[4],
+            result[5],
+            result[6],
+            result[7],
+            result[8]
+        )
+        company.pop(COMPANY_PASSWORD)
+        return company
+
+
+def __retrieve_company_phones(company_id, cursor):
+    retrieve_company_phones = create_retrieve_query(
+        COMPANY_PHONE_TABLE_NAME,
+        [COMPANY_PHONE],
+        f"{COMPANY_ID_FK} = {parametrized_query(0)}"
+    )
+    cursor.execute(retrieve_company_phones.format(company_id))
+    rows = cursor.fetchall()
+    results = []
+    for row in rows:
+        results.append(row[0])
+    return results
