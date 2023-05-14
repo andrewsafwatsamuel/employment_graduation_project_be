@@ -1,6 +1,7 @@
 from entities.models.employee import *
 from domain.getaways.db_gateway.db_statement_utils import *
 from domain.getaways.db_gateway.db_manager import *
+from datetime import datetime
 
 
 def insert_employee(employee_db, experiences):
@@ -23,11 +24,11 @@ def insert_employee_with_experience_transaction(employee_db, experiences, db, cu
 
 def __insert_to_employee_tabel(employee_db, cursor):
     insert_employee_statement = create_insert_query(EMPLOYEE_TABLE_NAME, [
-        EMPLOYEE_photo, EMPLOYEE_BIO, EMPLOYEE_RESUME, EMPLOYEE_NAME, EMPLOYEE_PHONE, EMPLOYEE_EMAIL, EMPLOYEE_TITLE,
+        EMPLOYEE_PHOTO, EMPLOYEE_BIO, EMPLOYEE_RESUME, EMPLOYEE_NAME, EMPLOYEE_PHONE, EMPLOYEE_EMAIL, EMPLOYEE_TITLE,
         EMPLOYEE_PASSWORD
     ])
     values = (
-        employee_db[EMPLOYEE_photo], employee_db[EMPLOYEE_BIO], employee_db[EMPLOYEE_RESUME],
+        employee_db[EMPLOYEE_PHOTO], employee_db[EMPLOYEE_BIO], employee_db[EMPLOYEE_RESUME],
         employee_db[EMPLOYEE_NAME], employee_db[EMPLOYEE_PHONE], employee_db[EMPLOYEE_EMAIL],
         employee_db[EMPLOYEE_TITLE], employee_db[EMPLOYEE_PASSWORD]
     )
@@ -80,3 +81,62 @@ def retrieve_employee_by_email(email):
             emp_db[7],
             emp_db[8]
         )
+
+
+def retrieve_employee_with_experiences(emp_id, db_connection=open_db_connection()):
+    cursor = db_connection.cursor()
+    try:
+        emp_db = __retrieve_employee_with_id(emp_id, cursor)
+        if emp_db is not None:
+            emp_db.update({EXPERIENCE_TABLE_NAME: __retrieve_experiences(emp_id, cursor)})
+    finally:
+        cursor.close()
+        db_connection.close()
+    return emp_db
+
+
+def __retrieve_employee_with_id(emp_id, cursor):
+    retrieve_employee_statement = create_retrieve_query(
+        table_name=EMPLOYEE_TABLE_NAME,
+        where_clause=f"{EMPLOYEE_ID} = {parametrized_query(0)}"
+    )
+    cursor.execute(retrieve_employee_statement.format(emp_id))
+    result = cursor.fetchone()
+    if result is None:
+        return None
+    else:
+        emp = Employee_Db(
+            result[0],
+            result[1],
+            result[2],
+            result[3],
+            result[4],
+            result[5],
+            result[6],
+            result[7],
+            result[8]
+        )
+        emp.pop(EMPLOYEE_PASSWORD)
+        return emp
+
+
+def __retrieve_experiences(emp_id, cursor):
+    retrieve_experiences_statement = create_retrieve_query(
+        table_name=EXPERIENCE_TABLE_NAME,
+        where_clause=f"{EMPLOYEE_ID_FK} = {parametrized_query(0)}"
+    )
+    cursor.execute(retrieve_experiences_statement.format(emp_id))
+    rows = cursor.fetchall()
+    results = []
+    for row in rows:
+        result = Experience_Db(
+            row[0],
+            row[1],
+            row[2],
+            row[3],
+            row[4].strftime("%Y-%m-%d"),
+            row[5].strftime("%Y-%m-%d") if row[5] is not None else None
+        )
+        result.pop(EMPLOYEE_ID_FK)
+        results.append(result)
+    return results
