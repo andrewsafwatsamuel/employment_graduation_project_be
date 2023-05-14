@@ -2,6 +2,7 @@ from domain.getaways.db_gateway.db_manager import *
 from domain.getaways.db_gateway.db_statement_utils import *
 from entities.models.job_listing import *
 from entities.models.company import *
+from entities.models.employee import *
 
 
 def insert_new_job_listing(job_listing_db):
@@ -121,3 +122,27 @@ def update_job_application_status(status, job_listing_id, employee_id):
       WHERE {JOB_LISTING_ID_FK} = %s AND {EMPLOYEE_ID_FK} = %s
     """
     return update_db_entries(update_application_status_statement, (status, job_listing_id, employee_id))
+
+
+def retrieve_job_applications(company_id, job_listing_id):
+    job_listing_id_col = get_column(JOB_LISTING_TABLE_NAME, JOB_LISTING_ID)
+    company_id_col = get_column(COMPANY_TABLE_NAME, COMPANY_ID)
+    query_statement = f"""select {get_column(EMPLOYEE_TABLE_NAME, EMPLOYEE_NAME)} , 
+                                 {get_column(EMPLOYEE_TABLE_NAME, EMPLOYEE_ID)} , 
+                                 {get_column(EMPLOYEE_TABLE_NAME, EMPLOYEE_TITLE)} , 
+                                 {get_column(EMPLOYEE_TABLE_NAME, EMPLOYEE_PHOTO)} , 
+                                 {get_column(JOB_APPLICATION_TABLE_NAME, JOB_APPLICATION_STATUS)}
+                          from {JOB_LISTING_TABLE_NAME} , 
+                               {EMPLOYEE_TABLE_NAME}, 
+                               {JOB_APPLICATION_TABLE_NAME} , 
+                               {COMPANY_TABLE_NAME} 
+                          WHERE {get_column(JOB_APPLICATION_TABLE_NAME, JOB_LISTING_ID_FK)} = {job_listing_id_col} 
+                          AND {get_column(JOB_LISTING_TABLE_NAME, COMPANY_ID_FK)} = {company_id_col}
+                          AND {company_id_col} = {'{0}'}
+                          AND {job_listing_id_col} = {'{1}'};
+    """
+    results = query_multiple_values(query_statement, [company_id, job_listing_id])
+    applications = []
+    for result in results:
+        applications.append(Job_Application_Api(result[0], result[1], result[2], result[3], result[4]))
+    return applications
