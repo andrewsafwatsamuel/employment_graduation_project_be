@@ -2,6 +2,7 @@ from flask import Flask, request
 from domain.getaways.db_gateway.operations.table_initializer import *
 from endpoint_logic.authentication import *
 from endpoint_logic.job_listing import *
+from endpoint_logic.employee_profile import *
 
 app = Flask(__name__)
 
@@ -19,6 +20,11 @@ def register_company_endpoint():
 @app.route("/employees/login", methods=['POST'])
 def login_employee_endpoint():
     return login_employee(request.form)
+
+
+@app.route("/employees/<emp_id>", methods=['get'])
+def get_employee_profile_end_point(emp_id):
+    return get_employee_profile(emp_id)
 
 
 @app.route("/companies/login", methods=['POST'])
