@@ -36,7 +36,7 @@ def create_retrieve_query(table_name, columns=None, where_clause=None):
     if where_clause is not None and len(where_clause) > 0:
         where = f"WHERE {where_clause}"
 
-    if columns is None or len(where_clause) == 0:
+    if columns is None or len(columns) == 0:
         selection = "*"
     else:
         selection = ""

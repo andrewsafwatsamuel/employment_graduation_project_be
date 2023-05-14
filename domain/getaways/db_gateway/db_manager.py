@@ -74,14 +74,14 @@ def query_single_value(query, where_args):
     return result
 
 
-def query_multiple_values(query, where_args):
+def query_multiple_values(query, where_args=None):
     db = open_db_connection()
     result = None
     if db is None:
         return result
     cursor = db.cursor(db)
     try:
-        cursor.execute(query.format(*where_args))
+        cursor.execute(query.format(*where_args) if where_args is not None else query)
         rows = cursor.fetchall()
         result = []
         for row in rows:
