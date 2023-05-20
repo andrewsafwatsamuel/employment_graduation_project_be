@@ -7,7 +7,7 @@ from entities.models.employee import *
 def update_employee_profile_use_case(employee_db, operation=update_emp_profile):
     if employee_db[EMPLOYEE_ID] is None:
         raise Exception("Invalid data")
-    if not is_valid_string_input(employee_db[EMPLOYEE_ID]):
+    if not is_valid_string_input(employee_db[EMPLOYEE_NAME]):
         raise Exception("User name must not be null or blank")
     if not is_valid_string_input(employee_db[EMPLOYEE_PHONE], EGYPTIAL_PHONE_NUMBER_REGEX):
         raise Exception("Invalid phone number")
