@@ -8,7 +8,7 @@ def update_company_profile_use_case(company_db, operation=update_company_profile
     if company_db[COMPANY_ID] is None:
         raise Exception("Invalid data")
     if not is_valid_string_input(company_db[COMPANY_NAME]):
-        raise Exception("User name must not be null or blank")
+        raise Exception("Company name must not be null or blank")
     if not is_valid_string_input(company_db[COMPANY_INDUSTRY]):
         raise Exception("Industry must not be null or blank")
     if not is_valid_string_input(company_db[COMPANY_EMAIL], EMAIL_ADDRESS_REGEX):
