@@ -114,3 +114,45 @@ def __retrieve_company_phones(company_id):
     for row in rows:
         results.append(row[0])
     return results
+
+
+def add_new_phone(company_id, phone):
+    query_statement = create_insert_query(COMPANY_PHONE_TABLE_NAME, [COMPANY_ID_FK, COMPANY_PHONE])
+    return insert_new_record(query_statement, (company_id, phone))
+
+
+def update_company_profile(company_db):
+    query_statement = f"""
+         UPDATE {COMPANY_TABLE_NAME} SET 
+         {COMPANY_NAME} = %s , 
+         {COMPANY_INDUSTRY} = %s , 
+         {COMPANY_WEBSITE} = %s , 
+         {COMPANY_ABOUT} = %s , 
+         {COMPANY_EMAIL} = %s , 
+         {COMPANY_FACEBOOK_PAGE} = %s 
+         WHERE {COMPANY_ID} = %s;
+    """
+    values = (
+        company_db[COMPANY_NAME],
+        company_db[COMPANY_INDUSTRY],
+        company_db[COMPANY_WEBSITE],
+        company_db[COMPANY_ABOUT],
+        company_db[COMPANY_EMAIL],
+        company_db[COMPANY_FACEBOOK_PAGE],
+        company_db[COMPANY_ID]
+    )
+    return update_db_entries(query_statement, values)
+
+
+def update_company_password(company_id, password):
+    query_statement = f""" UPDATE {COMPANY_TABLE_NAME} SET {COMPANY_PASSWORD} = %s WHERE {COMPANY_ID} = %s;"""
+    values = (password, company_id)
+    return update_db_entries(query_statement, values)
+
+
+def remove_company_phone(company_id, phone):
+    query_statement = create_delete_query(
+        COMPANY_PHONE_TABLE_NAME,
+        f"{COMPANY_ID_FK} = {{0}} AND {COMPANY_PHONE} = {{1}}"
+    )
+    return delete_db_entries(query_statement, (company_id, phone))
