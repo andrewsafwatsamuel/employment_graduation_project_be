@@ -100,6 +100,26 @@ def update_employee_password_end_point():
     return update_employee_password(request.headers, request.form)
 
 
+@app.route("/companies/update-profile", methods=['PUT'])
+def update_company_profile_end_point():
+    return update_company_profile(request.headers, request.form)
+
+
+@app.route("/companies/add-phone", methods=['POST'])
+def add_company_phone_end_point():
+    return add_company_phone(request.headers, request.form)
+
+
+@app.route("/companies/remove-phone", methods=['DELETE'])
+def remove_company_phone_end_point():
+    return remove_company_phone(request.headers, request.form)
+
+
+@app.route("/companies/update-password", methods=['PUT'])
+def update_company_password_end_point():
+    return update_company_password(request.headers, request.form)
+
+
 @app.route("/")
 def init():
     return "Hello World!"
