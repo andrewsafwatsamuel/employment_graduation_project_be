@@ -127,9 +127,65 @@ def __retrieve_experiences(emp_id):
             row[1],
             row[2],
             row[3],
-            row[4].strftime("%Y-%m-%d"),
-            row[5].strftime("%Y-%m-%d") if row[5] is not None else None
+            row[4],
+            row[5],
+            row[6]
         )
         result.pop(EMPLOYEE_ID_FK)
         results.append(result)
     return results
+
+
+def insert_experience(experience_db):
+    query_statement = create_insert_query(
+        EXPERIENCE_TABLE_NAME,
+        [
+            EMPLOYEE_ID_FK,
+            EXP_COMPANY_NAME,
+            EXPERIENCE_EMP_TITLE,
+            EXPERIENCE_EMPLOYMENT_TYPE,
+            EXPERIENCE_START_DATE,
+            EXPERIENCE_END_DATE
+        ])
+    values = (experience_db[EMPLOYEE_ID_FK],
+              experience_db[EXP_COMPANY_NAME],
+              experience_db[EXPERIENCE_EMP_TITLE],
+              experience_db[EXPERIENCE_EMPLOYMENT_TYPE],
+              experience_db[EXPERIENCE_START_DATE],
+              experience_db[EXPERIENCE_END_DATE])
+    return insert_new_record(query_statement, values)
+
+
+def update_emp_profile(emp_db):
+    query_statement = f"""
+        UPDATE {EMPLOYEE_TABLE_NAME} SET 
+        {EMPLOYEE_BIO} = %s , 
+        {EMPLOYEE_NAME} = %s , 
+        {EMPLOYEE_PHONE} = %s , 
+        {EMPLOYEE_EMAIL} = %s , 
+        {EMPLOYEE_TITLE} = %s 
+        WHERE {EMPLOYEE_ID} = %s;
+    """
+    values = (
+        emp_db[EMPLOYEE_BIO],
+        emp_db[EMPLOYEE_NAME],
+        emp_db[EMPLOYEE_PHONE],
+        emp_db[EMPLOYEE_EMAIL],
+        emp_db[EMPLOYEE_TITLE],
+        emp_db[EMPLOYEE_ID]
+    )
+    return update_db_entries(query_statement, values)
+
+
+def update_emp_password(emp_id, password):
+    query_statement = f""" UPDATE {EMPLOYEE_TABLE_NAME} SET {EMPLOYEE_PASSWORD} = %s WHERE {EMPLOYEE_ID} = %s;"""
+    values = (password, emp_id)
+    return update_db_entries(query_statement, values)
+
+
+def remove_experience(emp_id, exp_id):
+    query_statement = create_delete_query(
+        EXPERIENCE_TABLE_NAME,
+        f"{EMPLOYEE_ID_FK} = {{0}} AND {EXPERIENCE_ID} = {{1}}"
+    )
+    return delete_db_entries(query_statement, (emp_id, exp_id))

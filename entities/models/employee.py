@@ -15,6 +15,7 @@ EMPLOYEE_ID_FK = "emp_id"
 
 # experience variable names
 EXPERIENCE_TABLE_NAME = "experience"
+EXPERIENCE_ID = "id"
 EXPERIENCE_EMP_TITLE = "title"
 EXPERIENCE_EMPLOYMENT_TYPE = "employment_type"
 EXPERIENCE_START_DATE = "start_date"
@@ -55,6 +56,7 @@ def Employee_Db(
 
 
 def Experience_Db(
+        experience_id,
         emp_id,
         company_name,
         emp_title,
@@ -63,6 +65,7 @@ def Experience_Db(
         end_date
 ):
     return {
+        EXPERIENCE_ID: experience_id,
         EMPLOYEE_ID_FK: emp_id,
         EXP_COMPANY_NAME: company_name,
         EXPERIENCE_EMP_TITLE: emp_title,
