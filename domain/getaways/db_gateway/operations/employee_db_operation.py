@@ -1,7 +1,6 @@
 from entities.models.employee import *
 from domain.getaways.db_gateway.db_statement_utils import *
 from domain.getaways.db_gateway.db_manager import *
-from datetime import datetime
 
 
 def insert_employee(employee_db, experiences):
