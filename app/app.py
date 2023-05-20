@@ -80,6 +80,26 @@ def get_job_applications_end_point(job_listing_id):
     return get_job_applications(request.headers, job_listing_id)
 
 
+@app.route("/employees/update-profile", methods=['PUT'])
+def update_employee_profile_end_point():
+    return update_employee_profile(request.headers, request.form)
+
+
+@app.route("/employees/add-experience", methods=['POST'])
+def add_experience_end_point():
+    return add_new_experience(request.headers, request.form)
+
+
+@app.route("/employees/remove-experience", methods=['DELETE'])
+def remove_employee_experience_end_point():
+    return remove_experience(request.headers, request.form)
+
+
+@app.route("/employees/update-password", methods=['PUT'])
+def update_employee_password_end_point():
+    return update_employee_password(request.headers, request.form)
+
+
 @app.route("/")
 def init():
     return "Hello World!"

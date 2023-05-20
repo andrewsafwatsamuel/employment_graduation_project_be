@@ -3,18 +3,18 @@ from domain.utils.validation_utils import is_valid_string_input
 from entities.models.employee import *
 
 
-def add_experience_use_case(experience_db, operation: insert_experience):
+def add_experience_use_case(experience_db, operation=insert_experience):
     if experience_db[EMPLOYEE_ID_FK] is None:
         raise Exception("Invalid data")
-    if not is_valid_string_input(experience_db[EXP_COMPANY_NAME]):
+    if not is_valid_string_input(experience_db[EXPERIENCE_COMPANY_NAME]):
         raise Exception("Company name must not be null or blank")
     if not is_valid_string_input(experience_db[EXPERIENCE_EMP_TITLE]):
         raise Exception("Title must not be null or blank")
-    if not __is_valid_employment_type(experience_db[EMPLOYEE_ID_FK]):
+    if not __is_valid_employment_type(experience_db[EXPERIENCE_EMPLOYMENT_TYPE]):
         raise Exception("Invalid employment type")
     if not is_valid_string_input(experience_db[EXPERIENCE_START_DATE]):
         raise Exception("Start date must not be null or blank")
-    return operation(experience_db) is not None
+    return operation(experience_db)
 
 
 def __is_valid_employment_type(employment_type):

@@ -13,12 +13,12 @@ def update_company_password_use_case(
         retrieve_company_operation=retrieve_company_by_email,
         update_password_operation=update_company_password
 ):
-    if not is_valid_string_input(email, EMAIL_ADDRESS_REGEX):
-        raise Exception("Error has occurred")
+    if not is_valid_string_input(email, EMAIL_ADDRESS_REGEX) or not is_valid_string_input(old_password):
+        raise Exception("Invalid inputs")
     if not is_valid_string_input(new_password, PASSWORD_REGEX):
         raise Exception("Invalid new password")
     company = retrieve_company_operation(email)
     if company is None or not check_password_hash(company[COMPANY_PASSWORD], old_password):
-        raise Exception("Error has occurred")
+        raise Exception("Invalid inputs")
     encrypted_password = generate_password_hash(new_password)
     return update_password_operation(company[COMPANY_ID], encrypted_password) > 0

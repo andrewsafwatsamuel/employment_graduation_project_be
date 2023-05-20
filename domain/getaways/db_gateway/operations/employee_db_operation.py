@@ -38,7 +38,7 @@ def __insert_to_employee_tabel(employee_db, cursor):
 def __insert_into_experience_table(emp_id, experiences, cursor):
     insert_experiences_statement = create_insert_multi_values_query(EXPERIENCE_TABLE_NAME, (
         EMPLOYEE_ID_FK,
-        EXP_COMPANY_NAME,
+        EXPERIENCE_COMPANY_NAME,
         EXPERIENCE_EMP_TITLE,
         EXPERIENCE_EMPLOYMENT_TYPE,
         EXPERIENCE_START_DATE,
@@ -52,7 +52,7 @@ def __flatten_experiences_values(foreign_key, dict_array):
     result = []
     for dictionary in dict_array:
         result.append(foreign_key)
-        result.append(dictionary[EXP_COMPANY_NAME])
+        result.append(dictionary[EXPERIENCE_COMPANY_NAME])
         result.append(dictionary[EXPERIENCE_EMP_TITLE])
         result.append(dictionary[EXPERIENCE_EMPLOYMENT_TYPE])
         result.append(dictionary[EXPERIENCE_START_DATE])
@@ -140,14 +140,14 @@ def insert_experience(experience_db):
         EXPERIENCE_TABLE_NAME,
         [
             EMPLOYEE_ID_FK,
-            EXP_COMPANY_NAME,
+            EXPERIENCE_COMPANY_NAME,
             EXPERIENCE_EMP_TITLE,
             EXPERIENCE_EMPLOYMENT_TYPE,
             EXPERIENCE_START_DATE,
             EXPERIENCE_END_DATE
         ])
     values = (experience_db[EMPLOYEE_ID_FK],
-              experience_db[EXP_COMPANY_NAME],
+              experience_db[EXPERIENCE_COMPANY_NAME],
               experience_db[EXPERIENCE_EMP_TITLE],
               experience_db[EXPERIENCE_EMPLOYMENT_TYPE],
               experience_db[EXPERIENCE_START_DATE],

@@ -30,7 +30,7 @@ def __exp_to_json_array(experiences):
         try:
             data = json.loads(experience)
             if data.keys() == {EXPERIENCE_EMP_TITLE, EXPERIENCE_EMPLOYMENT_TYPE, EXPERIENCE_START_DATE,
-                               EXPERIENCE_END_DATE, EXP_COMPANY_NAME}:
+                               EXPERIENCE_END_DATE, EXPERIENCE_COMPANY_NAME}:
                 result.append(data)
         except Exception as e:
             print(e.args)
