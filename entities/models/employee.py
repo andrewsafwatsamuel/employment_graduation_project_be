@@ -15,11 +15,12 @@ EMPLOYEE_ID_FK = "emp_id"
 
 # experience variable names
 EXPERIENCE_TABLE_NAME = "experience"
+EXPERIENCE_ID = "id"
 EXPERIENCE_EMP_TITLE = "title"
 EXPERIENCE_EMPLOYMENT_TYPE = "employment_type"
 EXPERIENCE_START_DATE = "start_date"
 EXPERIENCE_END_DATE = "end_date"
-EXP_COMPANY_NAME = "company_name"
+EXPERIENCE_COMPANY_NAME = "company_name"
 
 # experience employment types
 FULL_TIME = 0
@@ -29,15 +30,15 @@ CONTRACTOR = 2
 
 # database model
 def Employee_Db(
-        emp_id,  # int not null
-        photo,  # string nullable
-        bio,  # string nullable
-        resume,  # string nullable
-        name,  # string not null
-        phone,  # string not null
-        email,  # string not null
-        title,  # string nullable
-        password,  # string not null
+        emp_id=None,  # int not null
+        photo=None,  # string nullable
+        bio=None,  # string nullable
+        resume=None,  # string nullable
+        name=None,  # string not null
+        phone=None,  # string not null
+        email=None,  # string not null
+        title=None,  # string nullable
+        password=None,  # string not null
         experiences=None  # array of employee experiences
 ):
     return {
@@ -55,16 +56,18 @@ def Employee_Db(
 
 
 def Experience_Db(
-        emp_id,
-        company_name,
-        emp_title,
-        employment_type,
-        start_date,
-        end_date
+        experience_id=None,
+        emp_id=None,
+        company_name=None,
+        emp_title=None,
+        employment_type=None,
+        start_date=None,
+        end_date=None
 ):
     return {
+        EXPERIENCE_ID: experience_id,
         EMPLOYEE_ID_FK: emp_id,
-        EXP_COMPANY_NAME: company_name,
+        EXPERIENCE_COMPANY_NAME: company_name,
         EXPERIENCE_EMP_TITLE: emp_title,
         EXPERIENCE_EMPLOYMENT_TYPE: employment_type,
         EXPERIENCE_START_DATE: start_date,

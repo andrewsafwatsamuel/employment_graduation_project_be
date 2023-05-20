@@ -21,15 +21,15 @@ COMPANY_PHONE = "phone"
 
 # database model
 def Company_Db(
-        company_id,  # int not null
-        logo,  # string nullable
-        name,  # string nullable
-        industry,  # string nullable
-        website,  # string not null
-        about,  # string not null
-        email,  # string not null
-        fb_page,  # string nullable
-        password,  # string not null
+        company_id=None,  # int not null
+        logo=None,  # string nullable
+        name=None,  # string nullable
+        industry=None,  # string nullable
+        website=None,  # string not null
+        about=None,  # string not null
+        email=None,  # string not null
+        fb_page=None,  # string nullable
+        password=None,  # string not null
         phones=None,
 ):
     return {
