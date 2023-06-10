@@ -37,15 +37,6 @@ company_phone_creation_query = f""" CREATE TABLE IF NOT EXISTS company_phone (
 );
 """
 
-# company_address_creation_query = f""" CREATE TABLE IF NOT EXISTS company_address (
-#  {COMPANY_ID_FK} INTEGER ,
-#  {COMPANY_COUNTRY} VARCHAR(100) NOT NULL ,
-#  {COMPANY_CITY} VARCHAR(100) NOT NULL ,
-#  {COMPANY_STREET} VARCHAR(100) NOT NULL ,
-#  FOREIGN KEY ({COMPANY_ID_FK}) REFERENCES company({COMPANY_ID}) ON DELETE CASCADE
-# );
-# """
-
 job_listing_creation_query = f""" CREATE TABLE IF NOT EXISTS {JOB_LISTING_TABLE_NAME} (
   {JOB_LISTING_ID} INTEGER PRIMARY KEY AUTO_INCREMENT , 
   {COMPANY_ID_FK} INTEGER NOT NULL , 
@@ -104,7 +95,6 @@ def init_db_tables():
     make_db_query(employee_creation_query)
     make_db_query(company_creationQuery)
     make_db_query(company_phone_creation_query)
-    # make_db_query(company_address_creation_query)
     make_db_query(job_listing_creation_query)
     make_db_query(job_application_creation_query)
     make_db_query(experience_creation_query)
