@@ -14,11 +14,6 @@ COMPANY_PHONE_TABLE_NAME = "company_phone"
 COMPANY_PHONE = "phone"
 
 
-# COMPANY_COUNTRY = "country"
-# COMPANY_CITY = "city"
-# COMPANY_STREET = "street"
-
-
 # database model
 def Company_Db(
         company_id=None,  # int not null

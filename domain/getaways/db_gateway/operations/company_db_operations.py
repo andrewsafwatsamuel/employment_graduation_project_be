@@ -8,7 +8,7 @@ def insert_company(company_db, company_phones):
         lambda db, cursor: company_insertion_operations(company_db, company_phones, db, cursor))
 
 
-def company_insertion_operations(company_db, company_phones, db, cursor):
+def company_insertion_operations(company_db, company_phone, db, cursor):
     insert_company_statement = create_insert_query(COMPANY_TABLE_NAME, [
         COMPANY_LOGO,
         COMPANY_NAME,
@@ -19,11 +19,11 @@ def company_insertion_operations(company_db, company_phones, db, cursor):
         COMPANY_FACEBOOK_PAGE,
         COMPANY_PASSWORD
     ])
-    insert_company_phones_statement = create_insert_multi_values_query(
+    insert_company_phones_statement = create_insert_query(
         COMPANY_PHONE_TABLE_NAME, [
             COMPANY_ID_FK,
             COMPANY_PHONE
-        ], len(company_phones)
+        ]
     )
     try:
         cursor.execute(insert_company_statement, (
@@ -37,11 +37,7 @@ def company_insertion_operations(company_db, company_phones, db, cursor):
             company_db[COMPANY_PASSWORD]
         ))
         company_id = cursor.lastrowid
-        values = []
-        for phone in company_phones:
-            values.append(company_id)
-            values.append(phone)
-        cursor.execute(insert_company_phones_statement, values)
+        cursor.execute(insert_company_phones_statement, (company_id, company_phone))
         db.commit()
     except Exception as e:
         db.rollback()
