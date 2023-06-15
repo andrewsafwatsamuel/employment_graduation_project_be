@@ -46,9 +46,9 @@ def register_company(request_body):
         get_or_none(request_body, COMPANY_FACEBOOK_PAGE),
         get_or_none(request_body, COMPANY_PASSWORD)
     )
-    company_phones = request_body.getlist(COMPANY_PHONE) if request_body.getlist(COMPANY_PHONE) is not None else []
+    company_phone = get_or_none(request_body, COMPANY_PHONE)
     try:
-        company_id = company_registration_use_case(company, company_phones)
+        company_id = company_registration_use_case(company, company_phone)
     except Exception as e:
         return jsonify({"error": str(e.args)}), 422
     if company_id is None:
