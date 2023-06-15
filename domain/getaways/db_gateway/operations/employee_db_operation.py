@@ -3,17 +3,15 @@ from domain.getaways.db_gateway.db_statement_utils import *
 from domain.getaways.db_gateway.db_manager import *
 
 
-def insert_employee(employee_db, experiences):
+def insert_employee(employee_db):
     return insert_on_many_tables(
-        lambda db, cursor: insert_employee_with_experience_transaction(employee_db, experiences, db, cursor)
+        lambda db, cursor: insert_employee_with_experience_transaction(employee_db, db, cursor)
     )
 
 
-def insert_employee_with_experience_transaction(employee_db, experiences, db, cursor):
+def insert_employee_with_experience_transaction(employee_db, db, cursor):
     try:
         employee_id = __insert_to_employee_tabel(employee_db, cursor)
-        if experiences is not None and len(experiences) > 0:
-            __insert_into_experience_table(employee_id, experiences, cursor)
         db.commit()
     except Exception as e:
         db.rollback()
@@ -33,19 +31,6 @@ def __insert_to_employee_tabel(employee_db, cursor):
     )
     cursor.execute(insert_employee_statement, values)
     return cursor.lastrowid
-
-
-def __insert_into_experience_table(emp_id, experiences, cursor):
-    insert_experiences_statement = create_insert_multi_values_query(EXPERIENCE_TABLE_NAME, (
-        EMPLOYEE_ID_FK,
-        EXPERIENCE_COMPANY_NAME,
-        EXPERIENCE_EMP_TITLE,
-        EXPERIENCE_EMPLOYMENT_TYPE,
-        EXPERIENCE_START_DATE,
-        EXPERIENCE_END_DATE
-    ), len(experiences))
-    values = __flatten_experiences_values(emp_id, experiences)
-    cursor.execute(insert_experiences_statement, values)
 
 
 def __flatten_experiences_values(foreign_key, dict_array):

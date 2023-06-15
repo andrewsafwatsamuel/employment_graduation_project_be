@@ -21,9 +21,8 @@ def register_employee(request_body):
         get_or_none(request_body, EMPLOYEE_TITLE),
         get_or_none(request_body, EMPLOYEE_PASSWORD)
     )
-    experiences = request_body.getlist(EXPERIENCE_TABLE_NAME) if request_body.getlist(COMPANY_PHONE) is not None else []
     try:
-        emp_id = employee_registration_use_case(employee, experiences)
+        emp_id = employee_registration_use_case(employee)
     except Exception as e:
         return jsonify({"error": str(e.args)}), 422
     if emp_id is None:
