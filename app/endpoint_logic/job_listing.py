@@ -73,9 +73,11 @@ def apply_for_job(request_body, request_headers, use_case=apply_for_job_use_case
 
 def get_jobs_by_company_id(request_headers, use_case=get_all_jobs_by_company_id_use_case):
     auth_token = get_or_none(request_headers, AUTH_TOKEN)
+
     if auth_token is None:
         return jsonify({"message": "unauthorized"}), 401
     try:
+
         session = get_session_by_token_use_case(auth_token, COMPANY_SESSION_TABLE_NAME)
     except Exception as e:
         return jsonify({"message": e.args}), 401
@@ -85,7 +87,7 @@ def get_jobs_by_company_id(request_headers, use_case=get_all_jobs_by_company_id_
         result = use_case(session[OWNER_ID])
     except Exception as e:
         return jsonify({"message": str(e.args)}), 500
-    return jsonify(result if result is not None else {"message", "No Jobs found"}), 200
+    return jsonify(result if result is not None else {"message": "No Jobs found"}), 200
 
 
 def update_job_status(request_body, request_headers, use_case=toggle_job_listing_status_use_case):
