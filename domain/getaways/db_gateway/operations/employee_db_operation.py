@@ -38,6 +38,28 @@ def retrieve_employee_by_email(email):
         )
 
 
+def retrieve_employee_by_id(employee_id):
+    retrieve_employee_by_email_query = create_retrieve_query(
+        table_name=EMPLOYEE_TABLE_NAME,
+        where_clause=f"{EMPLOYEE_ID} = {parametrized_query(0)}"
+    )
+    emp_db = query_single_value(retrieve_employee_by_email_query, [employee_id])
+    if emp_db is None:
+        return None
+    else:
+        return Employee_Db(
+            emp_db[0],
+            emp_db[1],
+            emp_db[2],
+            emp_db[3],
+            emp_db[4],
+            emp_db[5],
+            emp_db[6],
+            emp_db[7],
+            emp_db[8]
+        )
+
+
 def retrieve_employee_with_experiences(emp_id):
     emp_db = __retrieve_employee_with_id(emp_id)
     if emp_db is not None:
