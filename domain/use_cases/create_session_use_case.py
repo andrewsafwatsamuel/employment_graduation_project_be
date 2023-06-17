@@ -11,7 +11,7 @@ def create_session_use_case(
         owner_email,
         table_name,
         operation=insert_session,
-        cleaning_operation=delete_sessions_by_email
+        cleaning_operation=delete_sessions_by_id
 ):
     if not is_valid_string_input(str(owner_id)) or not is_valid_string_input(owner_email, EMAIL_ADDRESS_REGEX):
         raise Exception("Error while creating the session")
@@ -20,7 +20,7 @@ def create_session_use_case(
     refresh_token = generate_password_hash(token_combination)
     current_time = current_time_millis()
     session_db = Session_Db(owner_id, auth_token, refresh_token, owner_email, current_time)
-    cleaning_operation(owner_email, table_name)
+    cleaning_operation(owner_id, table_name)
     session_row_id = operation(session_db, table_name)
     if session_row_id is not None:
         return session_db

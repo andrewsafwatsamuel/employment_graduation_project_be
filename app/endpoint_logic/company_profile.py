@@ -97,7 +97,7 @@ def update_company_password(
         return jsonify(session), 401
     try:
         updated_successfully = use_case(
-            session[OWNER_EMAIL],
+            session[OWNER_ID],
             get_or_none(request_body, "old-password"),
             get_or_none(request_body, "new-password")
         )
