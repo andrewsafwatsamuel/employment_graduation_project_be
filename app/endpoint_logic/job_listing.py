@@ -102,14 +102,14 @@ def update_job_status(request_body, request_headers, use_case=toggle_job_listing
     if not has_valid_session(session):
         return jsonify({"message": "unauthorized"}), 401
     try:
-        use_case(job_listing_id, session[OWNER_ID])
+        status = use_case(job_listing_id, session[OWNER_ID])
     except Exception as e:
         message = str(e.args)
         if message.__contains__("unauthorized"):
             return jsonify({"message": "unauthorized"}), 401
         else:
             return jsonify({"message": str(e.args)}), 500
-    return jsonify({"message": "updated successfully "}), 200
+    return jsonify({"status": status}), 200
 
 
 def update_application_status(request_body, request_headers, use_case=update_application_status_use_case):

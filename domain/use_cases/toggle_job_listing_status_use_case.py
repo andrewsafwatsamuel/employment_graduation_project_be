@@ -18,3 +18,4 @@ def toggle_job_listing_status_use_case(
         raise Exception("unauthorized")
     status = 0 if job_listing[JOB_LISTING_STATUS] == 1 else 1
     update_operation(job_listing_id, status)
+    return status
