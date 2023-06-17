@@ -69,6 +69,29 @@ def retrieve_company_by_email(email):
 
 
 def retrieve_company_by_id(company_id):
+    retrieve_company_by_email_query = create_retrieve_query(
+        table_name=COMPANY_TABLE_NAME,
+        where_clause=f"{COMPANY_ID} = {parametrized_query(0)}"
+    )
+
+    company_db = query_single_value(retrieve_company_by_email_query, [company_id])
+    if company_db is None:
+        return None
+    else:
+        return Company_Db(
+            company_db[0],
+            company_db[1],
+            company_db[2],
+            company_db[3],
+            company_db[4],
+            company_db[5],
+            company_db[6],
+            company_db[7],
+            company_db[8]
+        )
+
+
+def retrieve_company_with_phones_by_id(company_id):
     company = __retrieve_company_by_id(company_id)
     if company is not None:
         company.update({COMPANY_PHONE_TABLE_NAME: __retrieve_company_phones(company_id)})
