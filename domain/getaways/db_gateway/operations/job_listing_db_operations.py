@@ -138,6 +138,7 @@ def retrieve_job_applications(company_id, job_listing_id):
                                {COMPANY_TABLE_NAME} 
                           WHERE {get_column(JOB_APPLICATION_TABLE_NAME, JOB_LISTING_ID_FK)} = {job_listing_id_col} 
                           AND {get_column(JOB_LISTING_TABLE_NAME, COMPANY_ID_FK)} = {company_id_col}
+                          AND {get_column(EMPLOYEE_TABLE_NAME, EMPLOYEE_ID)} IN (SELECT {get_column(JOB_APPLICATION_TABLE_NAME,EMPLOYEE_ID_FK)} FROM {JOB_APPLICATION_TABLE_NAME}) 
                           AND {company_id_col} = {'{0}'}
                           AND {job_listing_id_col} = {'{1}'};
     """
