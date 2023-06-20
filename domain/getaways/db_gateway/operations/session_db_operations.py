@@ -35,12 +35,12 @@ def retrieve_session_by_token(auth_token, table_name):
         )
 
 
-def delete_sessions_by_email(email, table_name):
+def delete_sessions_by_id(owner_id, table_name):
     delete_session_statement = create_delete_query(
         table_name,
-        f"{OWNER_EMAIL} = {parametrized_query(0)}"
+        f"{OWNER_ID} = {parametrized_query(0)}"
     )
-    return delete_db_entries(delete_session_statement, [email])
+    return delete_db_entries(delete_session_statement, [owner_id])
 
 
 def delete_session_by_token(auth_token, table_name):
